@@ -14,8 +14,8 @@ public:
     Store();
     void PrintArticles() const;
     void PrintBasket() const;
-    bool AddGood(std::string article, int quantity);
-    bool RemoveGood(std::string article, int quantity);
+    void AddGood(std::string article, int quantity);
+    void RemoveGood(std::string article, int quantity);
 };
 
 

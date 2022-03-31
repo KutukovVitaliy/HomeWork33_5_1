@@ -37,9 +37,49 @@ void Store::PrintBasket() const {
     std::cout << std::endl;
 }
 
-bool Store::AddGood(std::string article, int quantity) {
-    if(storage.find(article) == storage.end())
+void Store::AddGood(std::string article, int quantity) {
+    if(quantity <= 0)
+    {
+        throw std::invalid_argument("Invalid quantity!");
+    }
+    std::map<std::string, int>::iterator storageIt = storage.find(article);
+    if(storageIt == storage.end())
+    {
+        throw std::invalid_argument("Invalid article");
+
+    }
+    if(quantity > storageIt->second)
+    {
+        throw std::invalid_argument("No enough quantity of product!");
+
+    }
+    storageIt->second -= quantity;
+    if(basket.find(article) != basket.end())
+    {
+        basket.find(article)->second += quantity;
+    }
+    else
+    {
+        basket.emplace(std::make_pair(article, quantity));
+    }
+
+}
+
+void Store::RemoveGood(std::string article, int quantity) {
+    if(quantity <= 0)
+    {
+        throw std::invalid_argument("Invalid quantity!");
+    }
+    std::map<std::string, int>::iterator basketIt = basket.find(article);
+    if(basketIt == basket.end())
     {
         throw std::invalid_argument("Invalid article");
     }
+    if(quantity > basketIt->second)
+    {
+        throw std::invalid_argument("No enough quantity of product!");
+    }
+    basketIt->second -= quantity;
+    storage.find(article)->second += quantity;
+
 }
